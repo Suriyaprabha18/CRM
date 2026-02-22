@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CRM Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="dashboard-wrapper">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <h2>CRM Dashboard</h2>
+
+    <div class="profile-box">
+      <h3>Profile Info</h3>
+      <p><strong>Name:</strong> <span id="name"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+      <p><strong>Phone:</strong> <span id="phone"></span></p>
+      <p><strong>Employee ID:</strong> <span id="empid"></span></p>
+    </div>
+
+    <h3>Raise Ticket</h3>
+    <input type="text" id="title" placeholder="Title">
+    <textarea id="description" placeholder="Description"></textarea>
+    <button onclick="raiseTicket()">Submit</button>
+
+    <button onclick="logout()" style="margin-top:20px;background:#e53e3e;">
+      Logout
+    </button>
+
+  </div>
+
+
+  <!-- CONTENT AREA -->
+  <div class="content">
+    <h2>My Tickets</h2>
+
+    <div id="ticketList"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+// ===== LOAD USER FROM LOCAL STORAGE =====
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+  window.location="login.html";
+}
+
+document.getElementById("name").innerText = user.name;
+document.getElementById("email").innerText = user.email;
+document.getElementById("phone").innerText = user.phone;
+document.getElementById("empid").innerText = user.employee_id;
+
+
+// ===== RAISE TICKET =====
+function raiseTicket(){
+
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+
+  if(!title || !description){
+    alert("Fill all fields");
+    return;
+  }
+
+  const ticket = {
+    title,
+    description,
+    status:"Open"
+  };
+
+  let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+  tickets.push(ticket);
+  localStorage.setItem("tickets", JSON.stringify(tickets));
+
+  document.getElementById("title").value="";
+  document.getElementById("description").value="";
+
+  loadTickets();
+}
+
+
+// ===== LOAD TICKETS =====
+function loadTickets(){
+
+  const ticketList = document.getElementById("ticketList");
+  ticketList.innerHTML="";
+
+  const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+
+  tickets.forEach(t=>{
+    ticketList.innerHTML += `
+      <div class="ticket-card">
+        <h4>${t.title}</h4>
+        <p>${t.description}</p>
+        <p><strong>Status:</strong> ${t.status}</p>
+      </div>
+    `;
+  });
+}
+
+loadTickets();
+
+
+// ===== LOGOUT =====
+function logout(){
+  localStorage.removeItem("user");
+  window.location="login.html";
+}
+
+</script>
+
+</body>
+</html>

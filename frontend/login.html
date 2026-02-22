@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+<body>
+
+<div class="auth-wrapper">
+  <div class="card">
+
+    <h2>Login</h2>
+
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <a href="register.html">Register</a>
+
+  </div>
+</div>
+
+</body>
+
+<link rel="stylesheet" href="style.css">
+
+<script>
+async function login(){
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const user = JSON.parse(localStorage.getItem("registeredUser"));
+
+  if(!user || user.email !== email || user.password !== password){
+    alert("Login Failed");
+    return;
+  }
+
+  localStorage.setItem("user", JSON.stringify(user));
+  window.location="dashboard.html";
+}
+</script>
+
+</body>
+</html>

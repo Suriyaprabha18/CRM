@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+  <div class="card">
+
+    <h2>Register</h2>
+
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="text" id="employee_id" placeholder="Employee ID">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="register()">Register</button>
+
+    <a href="login.html">Already have account? Login</a>
+
+  </div>
+</div>
+
+
+<script>
+
+function register(){
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  const employee_id = document.getElementById("employee_id").value;
+  const password = document.getElementById("password").value;
+
+  if(!name || !email || !phone || !employee_id || !password){
+    alert("Fill all fields");
+    return;
+  }
+
+  const user = {
+    name,
+    email,
+    phone,
+    employee_id,
+    password
+  };
+
+  localStorage.setItem("registeredUser", JSON.stringify(user));
+
+  alert("Registration Successful");
+
+  window.location="login.html";
+}
+
+</script>
+
+</body>
+</html>
